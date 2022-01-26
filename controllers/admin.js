@@ -4,12 +4,23 @@ const Query = require("../models/queries")
 const User = require("../models/user")
 exports.secureparser = async(req, res) => {
     {
+        // req.files = image/pdf
+        //     "fieldname": "invoices",
+        //     "originalname": "B119005_2_robo.pdf",
+        //     "encoding": "7bit",
+        //     "mimetype": "application/pdf",
+        //     "path": "https://res.cloudinary.com/dvl0tpsdb/image/upload/v1643223344/invoices/s3u3x8m75z8mazbumwzo.pdf",
+        //     "size": 397419,
+        //     "filename": "invoices/s3u3x8m75z8mazbumwzo"
+        // }
         const userid = req.user.id;
+        const templateID = req.body.templateid;
         const timestamp = new Date()
-        const options = req.body.options;
+            // const options = req.body.options;
         const query = new Query({
             timestamp,
-            options
+            templateID
+            // options
         })
         query.parsed = req.files.map(f => ({ url: f.path, filename: f.filename }));
         if (!query.parsed[0]) {

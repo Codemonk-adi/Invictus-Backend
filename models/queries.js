@@ -11,6 +11,11 @@ const pdfSchema = new Schema({
 
 const querySchema = new Schema({
     timestamp: Date,
+    templateID: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     parsed: [
         pdfSchema
     ],

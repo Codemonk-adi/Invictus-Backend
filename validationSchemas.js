@@ -31,4 +31,7 @@ const UserSchema = Joi.object({
 
 })
 
-module.exports = { UserSchema };
+const QuerySchema = Joi.object({
+    templateID: Joi.number().required().escapeHTML()
+})
+module.exports = { UserSchema, QuerySchema };
