@@ -4,8 +4,11 @@ const Schema = mongoose.Schema;
 
 const pdfSchema = new Schema({
     url: String,
-    filename: String,
-
+    filtype: String,
+    isparsed: {
+        type: Boolean,
+        default: false
+    },
     document: {}
 })
 

@@ -1,18 +1,15 @@
 const auth = require("../middleware/auth")()
     // const { Query } = require("mongoose");
+const { spawn } = require('child_process');
 const Query = require("../models/queries")
 const User = require("../models/user")
+const _ = require("lodash");
+// const { PythonShell } = require('python-shell');
+// const imageToBase64 = require('image-to-base64');
+// let fs = require("fs");
+
 exports.secureparser = async(req, res) => {
     {
-        // req.files = image/pdf
-        //     "fieldname": "invoices",
-        //     "originalname": "B119005_2_robo.pdf",
-        //     "encoding": "7bit",
-        //     "mimetype": "application/pdf",
-        //     "path": "https://res.cloudinary.com/dvl0tpsdb/image/upload/v1643223344/invoices/s3u3x8m75z8mazbumwzo.pdf",
-        //     "size": 397419,
-        //     "filename": "invoices/s3u3x8m75z8mazbumwzo"
-        // }
         const userid = req.user.id;
         const templateID = req.body.templateid;
         const timestamp = new Date()
@@ -22,15 +19,28 @@ exports.secureparser = async(req, res) => {
             templateID
             // options
         })
-        query.parsed = req.files.map(f => ({ url: f.path, filename: f.filename }));
+        query.parsed = req.files.map(f => ({ url: f.path, filetype: f.mimetype, document: {} }));
         if (!query.parsed[0]) {
             return res.json({ "msg": "No files Attached" })
         }
+
+        for (let i = 0; i < query.parsed.length; i++) {
+            var process = spawn('python', ["./hello.py",
+                query.id,
+                i,
+                query.parsed[i].url,
+                query.parsed[i].filetype,
+                query.templateID
+            ]);
+        }
+
+
         const user = await User.findById(userid);
-        console.dir(user.queries)
+        // console.dir(user.queries)
+
         user.queries.push(query.id);
-        await user.save()
         await query.save()
+        await user.save()
         res.send(req.files)
 
     }
@@ -39,6 +49,28 @@ exports.allQueries = async(req, res) => {
     const userid = req.user.id;
     const user = await User.findById(userid).populate({ path: 'queries' });
     res.json(user.queries)
+}
+
+exports.refinedSearch = async(req, res) => {
+    const {
+        options,
+        queryid,
+    } = req.body
+    const query = await Query.findById(queryid)
+    let output = []
+    let parsed = {}
+    for (doc in query.parsed) {
+        if (doc.isparsed == false) {
+            continue;
+        }
+        parsed = doc.document;
+        for (opt in options) {
+            _.get(parsed, opt)
+        }
+
+    }
+
+
 }
 
 exports.deleteQuery = async(req, res) => {

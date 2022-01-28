@@ -32,6 +32,6 @@ const UserSchema = Joi.object({
 })
 
 const QuerySchema = Joi.object({
-    templateID: Joi.number().required().escapeHTML()
+    templateID: Joi.number()
 })
 module.exports = { UserSchema, QuerySchema };
