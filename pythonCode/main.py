@@ -33,15 +33,15 @@ def main():
 	Input taken from backend
 	'''
 	# queryID is used to upload json file to mongo
-	queryID = sys.argv[1] 
+	# queryID = sys.argv[1] 
 	# documentID is the number when user passes multiple docs at once
-	documentID = sys.argv[2]
+	# documentID = sys.argv[2]
 	# URL of image hosted in cloudinary
-	url = sys.argv[3] #url of image
+	url = sys.argv[1] #url of image
 	# type of applicatino ie, "applications/pdf" or "image/jpg"
-	filetype = sys.argv[4]
+	filetype = sys.argv[2]
 	# ID of template used by user
-	templateID = int(sys.argv[5])
+	templateID = int(sys.argv[3])
 
 
 
