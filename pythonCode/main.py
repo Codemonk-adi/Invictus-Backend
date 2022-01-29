@@ -44,7 +44,7 @@ filetype = sys.argv[2]
 templateID = int(sys.argv[3])
 
 
-
+print(url)
 #convert link into image
 response = requests.get(url)
 

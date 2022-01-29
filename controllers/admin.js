@@ -33,6 +33,7 @@ exports.secureparser = async(req, res) => {
     function create_process(file) {
         return new bbPromise((resolve, reject) => {
             console.dir(query.templateID)
+            console.log(file.url)
             var c_process = spawn('python', ["./pythonCode/main.py",
                 file.url,
                 file.filetype,
