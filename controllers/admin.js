@@ -41,6 +41,7 @@ exports.secureparser = async(req, res) => {
 
             c_process.stdout.on('data', data => {
                 // console.log(data.toString())
+                console.log(data)
                 out = JSON.parse(data.toString())
                 finalout.push(out)
             })
