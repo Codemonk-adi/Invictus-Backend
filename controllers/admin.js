@@ -32,8 +32,8 @@ exports.secureparser = async(req, res) => {
 
     function create_process(file) {
         return new bbPromise((resolve, reject) => {
-            console.dir(query.templateID)
-            console.dir(file)
+            // console.dir(query.templateID)
+            // console.dir(file)
             var c_process = spawn('python', ["./pythonCode/main.py",
                 file.path,
                 file.mimetype,
@@ -42,13 +42,13 @@ exports.secureparser = async(req, res) => {
 
             c_process.stdout.on('data', data => {
                 // console.log(data.toString())
-                console.log(data.toString())
+                // console.log(data.toString())
                 out = JSON.parse(data.toString())
                 finalout.push(out)
             })
 
             c_process.stderr.on('data', function(err) {
-                console.log(err.toString())
+                // console.log(err.toString())
                 reject(err.toString());
             });
             // promises.push(c_process)
@@ -62,10 +62,10 @@ exports.secureparser = async(req, res) => {
     bbPromise.map(req.files, (file) => {
         return create_process(file)
     }).then(() => {
+        res.json(finalout)
         for (let i = 0; i < req.files.length; i++)
             query.parsed[i].document = finalout[i];
 
-        res.json(query.parsed)
         user.queries.push(query.id);
         user.save()
         query.save()
@@ -108,21 +108,51 @@ exports.nosaveparser = async(req, res) => {
     const templateID = req.body.templateid;
     // console.dir(query.parsed[0])
     // console.dir(req.files)
-    const c_process = spawn('python', ["./pythonCode/main.py",
-        req.files[0].path,
-        req.files[0].mimetype,
-        templateID
-    ])
-    c_process.stderr.on('data', e => {
-        console.log(e.toString());
-    })
+    // console.dir(query.parsed[0])
+    let finalout = []
+        // const promises = []
 
-    c_process.stdout.on('data', data => {
-        // console.log(data.toString())
-        finalout = JSON.parse(data.toString())
+    function create_process(file) {
+        return new bbPromise((resolve, reject) => {
+            // console.dir(query.templateID)
+            // console.dir(file)
+            var c_process = spawn('python', ["./pythonCode/main.py",
+                file.path,
+                file.mimetype,
+                templateID
+            ])
+
+            c_process.stdout.on('data', data => {
+                // console.log(data.toString())
+                // console.log(data.toString())
+                out = JSON.parse(data.toString())
+                finalout.push(out)
+            })
+
+            c_process.stderr.on('data', function(err) {
+                // console.log(err.toString())
+                reject(err.toString());
+            });
+            // promises.push(c_process)
+            c_process.on('close', () => {
+                resolve()
+            });
+        })
+    }
+
+
+    bbPromise.map(req.files, (file) => {
+        return create_process(file)
+    }).then(() => {
         res.json(finalout)
+            // for (let i = 0; i < req.files.length; i++)
+            //     query.parsed[i].document = finalout[i];
 
+        // user.queries.push(query.id);
+        // user.save()
+        // query.save()
     })
+
 }
 exports.refinedSearch = async(req, res) => {
     const {
