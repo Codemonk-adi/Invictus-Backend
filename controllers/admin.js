@@ -49,15 +49,16 @@ exports.secureparser = async(req, res) => {
             //     // res.json(postQueries.parsed[0].document)
             // });
     }
-    await Promise.all(promises)
-    for (let i = 0; i < req.files.length; i++)
-        query.parsed[i].document = finalout
+    Promise.all(promises).then(() => {
+        for (let i = 0; i < req.files.length; i++)
+            query.parsed[i].document = finalout[i]
 
 
-    res.json(query.parsed)
-    user.queries.push(query.id);
-    user.save()
-    query.save()
+        res.json(query.parsed)
+        user.queries.push(query.id);
+        user.save()
+        query.save()
+    })
 }
 exports.allQueries = async(req, res) => {
     const userid = req.user.id;
