@@ -5,7 +5,6 @@ const Query = require("../models/queries")
 const User = require("../models/user")
 const _ = require("lodash");
 const bbPromise = require('bluebird');
-const { resolve } = require("path/posix");
 
 // require(")
 // const { PythonShell } = require('python-shell');
