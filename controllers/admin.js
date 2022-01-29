@@ -43,8 +43,12 @@ exports.secureparser = async(req, res) => {
             c_process.stdout.on('data', data => {
                 // console.log(data.toString())
                 // console.log(data.toString())
-                out = JSON.parse(data.toString())
-                finalout.push(out)
+                try {
+                    out = JSON.parse(data.toString())
+                    finalout.push(out)
+                } catch (e) {
+                    finalout.push({ "msg": "Could not parse" })
+                }
             })
 
             c_process.stderr.on('data', function(err) {
