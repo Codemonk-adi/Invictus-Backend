@@ -26,28 +26,37 @@ exports.secureparser = async(req, res) => {
     }
 
     // console.dir(query.parsed[0])
-    const c_process = spawn('python', ["./pythonCode/main.py",
-        query.parsed[0].url,
-        query.parsed[0].filetype,
-        query.templateID
-    ])
+    let finalout = []
+    const promises = []
+    for (let file in req.files) {
 
-    c_process.stdout.on('data', data => {
-        // console.log(data.toString())
-        finalout = JSON.parse(data.toString())
-        res.json(finalout)
+        let c_process = spawn('python', ["./pythonCode/main.py",
+            file.url,
+            file.filetype,
+            query.templateID
+        ])
 
-    })
-    c_process.on('close', async() => {
-        // console.log("done")
-        // outQuery = await Query.findById(query.id)
-        // const postQueries = await Query.findById(query.id)
-        // res.json(postQueries.parsed[0].document)
-    });
+        c_process.stdout.on('data', data => {
+            // console.log(data.toString())
+            out = JSON.parse(data.toString())
+            finalout.push(out)
+        })
+        promises.push(c_process)
+            // c_process.on('close', async() => {
+            //     // console.log("done")
+            //     // outQuery = await Query.findById(query.id)
+            //     // const postQueries = await Query.findById(query.id)
+            //     // res.json(postQueries.parsed[0].document)
+            // });
+    }
+    await Promise.all(promises)
+    for (let i = 0; i < req.files.length; i++)
+        query.parsed[i].document = finalout
 
+
+    res.json(query.parsed)
     user.queries.push(query.id);
     user.save()
-    query.parsed[0].document = finalout
     query.save()
 }
 exports.allQueries = async(req, res) => {
@@ -66,7 +75,6 @@ exports.nosaveparser = async(req, res) => {
         req.files[0].mimetype,
         templateID
     ])
-    let finalout = {}
     c_process.stderr.on('data', e => {
         console.log(e.toString());
     })
