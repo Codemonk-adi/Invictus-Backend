@@ -8,15 +8,13 @@ Program to parse the image :
 5. Send back the result of textExtraction() to main
 
 '''
-from collections import namedtuple
 import pytesseract
-import imutils
 import cv2
-import json
 from functions.align_image import align_img
 from functions.removewatermark import removeWatermark
 import templates.template
 
+pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
 def cleanup_text(text):
     #Removes non-ASCII text using OpenCV

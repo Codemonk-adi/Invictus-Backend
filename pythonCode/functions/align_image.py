@@ -1,4 +1,4 @@
-from turtle import width
+
 import numpy as np
 import imutils
 import cv2
@@ -36,7 +36,6 @@ def align_img(img, template, maxFeatures=500, keepPercent=0.2, debug=False):
     
     (h,w) = template.shape[:2]
 
-    cv2.imwrite("Image.jpg",img)
     (image_h,image_w) = image.shape[:2]
     (img_h,img_w) = img.shape[:2]
 

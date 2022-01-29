@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const pdfSchema = new Schema({
     url: String,
-    filtype: String,
+    filetype: String,
     isparsed: {
         type: Boolean,
         default: false

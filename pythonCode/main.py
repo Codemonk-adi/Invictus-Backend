@@ -25,6 +25,7 @@ Dictinary Storing Template Deatils
 '''
 template_dict = {0 : ["template1.jpg","template1"]}
 
+print(os.getenv('TESSDATA_PREFIX'))
 
 def main():
 
