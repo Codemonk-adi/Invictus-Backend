@@ -62,7 +62,7 @@ class template1:
         with open('output2.json', 'w') as convert_file:
             convert_file.write(json.dumps(new_dict,indent=4))
 
-        return(json.dumps(new_dict, indent=4))
+        return(json.dumps(new_dict))
      
         
         #     return convert_file
