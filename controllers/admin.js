@@ -47,6 +47,7 @@ exports.secureparser = async(req, res) => {
             })
 
             c_process.stderr.on('data', function(err) {
+                console.log(err.toString())
                 reject(err.toString());
             });
             // promises.push(c_process)
