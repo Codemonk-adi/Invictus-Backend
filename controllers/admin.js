@@ -27,8 +27,7 @@ exports.secureparser = async(req, res) => {
             return res.json({ "msg": "No files Attached" })
         }
 
-        await query.save()
-            // console.dir(query.parsed[0])
+        // console.dir(query.parsed[0])
         const c_process = spawn('python', ["./pythonCode/main.py",
             query.id,
             0,
@@ -43,19 +42,22 @@ exports.secureparser = async(req, res) => {
         })
 
         c_process.stdout.on('data', data => {
-            console.log(data.toString())
+            // console.log(data.toString())
+            res.json(data.toString())
+
         })
         c_process.on('close', async() => {
             // console.log("done")
-            outQuery = await Query.findById(query.id)
-            res.json(outQuery.parsed[0].document)
-                // const postQueries = await Query.findById(query.id)
-                // res.json(postQueries.parsed[0].document)
+            // outQuery = await Query.findById(query.id)
+            // const postQueries = await Query.findById(query.id)
+            // res.json(postQueries.parsed[0].document)
         });
 
         user.queries.push(query.id);
         user.save()
-            // res.json({"hellp":"hii"})
+        query.save()
+
+        // res.json({"hellp":"hii"})
     }
 }
 exports.allQueries = async(req, res) => {
