@@ -4,6 +4,8 @@ const { spawn } = require('child_process');
 const Query = require("../models/queries")
 const User = require("../models/user")
 const _ = require("lodash");
+const bbPromise = require('bluebird');
+const { resolve } = require("path/posix");
 
 // require(")
 // const { PythonShell } = require('python-shell');
@@ -27,38 +29,70 @@ exports.secureparser = async(req, res) => {
 
     // console.dir(query.parsed[0])
     let finalout = []
-    const promises = []
-    for (let file in req.files) {
+        // const promises = []
 
-        let c_process = spawn('python', ["./pythonCode/main.py",
-            file.url,
-            file.filetype,
-            query.templateID
-        ])
+    function create_process(file) {
+        return new bbPromise((resolve, reject) => {
+            var c_process = spawn('python', ["./pythonCode/main.py",
+                file.url,
+                file.filetype,
+                query.templateID
+            ])
 
-        c_process.stdout.on('data', data => {
-            // console.log(data.toString())
-            out = JSON.parse(data.toString())
-            finalout.push(out)
+            c_process.stdout.on('data', data => {
+                // console.log(data.toString())
+                out = JSON.parse(data.toString())
+                finalout.push(out)
+            })
+
+            c_process.stderr.on('data', function(err) {
+                reject(err.toString());
+            });
+            // promises.push(c_process)
+            c_process.on('close', () => {
+                resolve()
+            });
         })
-        promises.push(c_process)
-            // c_process.on('close', async() => {
-            //     // console.log("done")
-            //     // outQuery = await Query.findById(query.id)
-            //     // const postQueries = await Query.findById(query.id)
-            //     // res.json(postQueries.parsed[0].document)
-            // });
     }
-    Promise.all(promises).then(() => {
-        for (let i = 0; i < req.files.length; i++)
-            query.parsed[i].document = finalout[i]
 
+
+    bbPromise.map(req.files, (file) => {
+        return create_process(file)
+    }).then(() => {
+        for (let i = 0; i < req.files.length; i++)
+            query.parsed[i].document = finalout[i];
 
         res.json(query.parsed)
         user.queries.push(query.id);
         user.save()
         query.save()
     })
+
+    // for (let file in req.files) {
+
+    //     let c_process = spawn('python', ["./pythonCode/main.py",
+    //         file.url,
+    //         file.filetype,
+    //         query.templateID
+    //     ])
+
+    //     c_process.stdout.on('data', data => {
+    //         // console.log(data.toString())
+    //         out = JSON.parse(data.toString())
+    //         finalout.push(out)
+    //     })
+    //     promises.push(c_process)
+    //         // c_process.on('close', async() => {
+    //         //     // console.log("done")
+    //         //     // outQuery = await Query.findById(query.id)
+    //         //     // const postQueries = await Query.findById(query.id)
+    //         //     // res.json(postQueries.parsed[0].document)
+    //         // });
+    // }
+    // Promise.all(promises).then(() => {
+
+
+
 }
 exports.allQueries = async(req, res) => {
     const userid = req.user.id;
