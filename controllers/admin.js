@@ -44,7 +44,7 @@ exports.secureparser = async(req, res) => {
                 // console.log(data.toString())
                 // console.log(data.toString())
                 try {
-                    out += JSON.parse(data.toString())
+                    out = JSON.parse(data.toString())
                     finalout.push(out)
                 } catch (e) {
                     console.log(data.toString())
