@@ -43,10 +43,6 @@ def main():
 	templateID = int(sys.argv[5])
 
 
-	#get template details from dictionary
-	template = cv2.imread(template_dict[templateID][0])
-	className = template_dict[templateID][1]
-
 
 	#convert link into image
 	response = requests.get(url)
@@ -60,6 +56,11 @@ def main():
 
 		
 	filename = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+	# cv2.imwrite("test.jpg",filename)
+
+	#get template details from dictionary
+	template = cv2.imread(template_dict[templateID][0])
+	className = template_dict[templateID][1]
 	
 
 	''' Image Alignment, Watermark Removal, Bounding Box, Text extraction '''

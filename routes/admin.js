@@ -3,11 +3,12 @@ const auth = require('../middleware/auth')();
 const router = express.Router();
 const multer = require('multer');
 const { storage } = require('../cloudinary');
-const { parser, secureparser, allQueries, deleteQuery } = require('../controllers/admin');
+const { parser, secureparser, allQueries, deleteQuery, refinedSearch } = require('../controllers/admin');
 const { ValidateQuery } = require('../middleware/validator');
 const upload = multer({ storage });
 
 router.post('/parse', auth.authenticate(), ValidateQuery, upload.array('invoices'), secureparser)
+    .post('/getJson',auth.authenticate(),refinedSearch)
     .get('/userhistory', auth.authenticate(), allQueries)
     .post('/deletehistory', auth.authenticate(), deleteQuery)
     // .post('/editUser', auth.authenticate())

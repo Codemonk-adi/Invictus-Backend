@@ -27,7 +27,7 @@ class template1:
             ["Sold", "To", "Information", "SOLD", "TO", "INFORMATION"]),
         OCRLocation("BillingInfo", (836, 1608, 777, 371),
             ["Sold"]),
-        OCRLocation("Table", (55, 1066, 1558, 417),
+        OCRLocation("Product", (55, 1066, 1558, 417),
             ["Sold"]),
         ]
 
@@ -59,10 +59,12 @@ class template1:
 
                 new_dict[entries] = new_dict1
 
+        with open('output2.json', 'w') as convert_file:
+            convert_file.write(json.dumps(new_dict,indent=4))
+
         return(json.dumps(new_dict, indent=4))
-    
-        # with open('output2.json', 'w') as convert_file:
-        #     convert_file.write(json.dumps(new_dict,indent=4))
+     
+        
         #     return convert_file
     
     def tableExtraction(self, list_entries = list()):
