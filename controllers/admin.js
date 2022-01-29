@@ -74,32 +74,6 @@ exports.secureparser = async(req, res) => {
         user.save()
         query.save()
     })
-
-    // for (let file in req.files) {
-
-    //     let c_process = spawn('python', ["./pythonCode/main.py",
-    //         file.url,
-    //         file.filetype,
-    //         query.templateID
-    //     ])
-
-    //     c_process.stdout.on('data', data => {
-    //         // console.log(data.toString())
-    //         out = JSON.parse(data.toString())
-    //         finalout.push(out)
-    //     })
-    //     promises.push(c_process)
-    //         // c_process.on('close', async() => {
-    //         //     // console.log("done")
-    //         //     // outQuery = await Query.findById(query.id)
-    //         //     // const postQueries = await Query.findById(query.id)
-    //         //     // res.json(postQueries.parsed[0].document)
-    //         // });
-    // }
-    // Promise.all(promises).then(() => {
-
-
-
 }
 exports.allQueries = async(req, res) => {
     const userid = req.user.id;
@@ -110,8 +84,12 @@ exports.allQueries = async(req, res) => {
 
 exports.nosaveparser = async(req, res) => {
     const templateID = req.body.templateid;
+    if (req.files.length == 0) {
+        res.json({ "msg": "No files Attached" })
+    }
     // console.dir(query.parsed[0])
     // console.dir(req.files)
+
     // console.dir(query.parsed[0])
     let finalout = []
         // const promises = []
@@ -129,8 +107,12 @@ exports.nosaveparser = async(req, res) => {
             c_process.stdout.on('data', data => {
                 // console.log(data.toString())
                 // console.log(data.toString())
-                out = JSON.parse(data.toString())
-                finalout.push(out)
+                try {
+                    out = JSON.parse(data.toString())
+                    finalout.push(out)
+                } catch (e) {
+                    console.log(data.toString())
+                }
             })
 
             c_process.stderr.on('data', function(err) {
@@ -149,12 +131,6 @@ exports.nosaveparser = async(req, res) => {
         return create_process(file)
     }).then(() => {
         res.json(finalout)
-            // for (let i = 0; i < req.files.length; i++)
-            //     query.parsed[i].document = finalout[i];
-
-        // user.queries.push(query.id);
-        // user.save()
-        // query.save()
     })
 
 }
