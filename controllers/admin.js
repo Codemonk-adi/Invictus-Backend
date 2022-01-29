@@ -35,8 +35,8 @@ exports.secureparser = async(req, res) => {
             console.dir(query.templateID)
             console.dir(file)
             var c_process = spawn('python', ["./pythonCode/main.py",
-                file.url,
-                file.filetype,
+                file.path,
+                file.mimetype,
                 query.templateID
             ])
 
