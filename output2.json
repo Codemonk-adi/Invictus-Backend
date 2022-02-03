@@ -1,0 +1,58 @@
+{
+    "From": {
+        "address": "FROM - Vax ID/EIN/VAT Now Kotis Design - 300 Distribution Circle Ste B |Fairfietd, OH 45014 United States ",
+        "Contact Name": "Kotis Design",
+        "Phone": "2064661800"
+    },
+    "SecondBox": {
+        "address": "Waybill Numbers 1AA5259YP8R ",
+        "Shipment 1D": "1AA5259YP8R",
+        "Date": "28/DEC/2021",
+        "Invoice No": "Order3639620",
+        "PO No": "",
+        "Terms of Sate (Incoterm)": "DDP",
+        "Reason for Export": "GIFT"
+    },
+    "ShipTo": {
+        "address": "SHIP TO Neha Jha IIIT Girls Hostel, D-Block, Bhubaneswar 751029 india ",
+        "| Tax ID/VAT No.": "",
+        "Contact Name": "Neha Jha (Student 1D",
+        "Gothapatna, PO": "MALIPADA, DIST-KHURDA",
+        "Phone": "9891665791"
+    },
+    "SoldTo": {
+        "address": "SOLD TO INFORMATION Neha Jha HIT Girls Hostet, D-Block, Bhubaneswar 751029 India ",
+        "\u2018Tax ID/VAT No.": "",
+        "Contact Name": "Neha Jha (Student ID",
+        "Gothapatna,PO": "MALIPADA, DIST-KHURDA",
+        "Phone": "9891665791"
+    },
+    "BillingInfo": {
+        "Invoice Line Total": "5.33",
+        "address": "",
+        "Discount/Rebate": "0.00",
+        "Invoice Sub-Total": "\u00a7.33",
+        "Freight": "0.00",
+        "": "Insurance",
+        "| Other": "0.00",
+        "Total Invoice Amount": "$.33",
+        "Total Number of Packages": "1 Currency",
+        "Total Weight": "0.2 LBS"
+    },
+    "Product": {
+        "4820.10.2010": {
+            "harmCode": "4820.10.2010",
+            "uniqueVal": "1.00",
+            "totalVal": "1.00",
+            "units": "1 PKG",
+            "description": " Recruiting Notebook (dot  US pages) / Part No. 79299-28 79299-28 "
+        },
+        "4908.90.0000": {
+            "harmCode": "4908.90.0000",
+            "uniqueVal": "1.00",
+            "totalVal": "1.00",
+            "units": "1 PKG",
+            "description": " Campus Recruiting Code with  US l HRT Sticker / Part No. 79299-38 79299-38 : "
+        }
+    }
+}

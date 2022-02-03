@@ -14,6 +14,7 @@ from functions.align_image import align_img
 from functions.removewatermark import removeWatermark
 import templates.template
 
+# pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract'
 pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
 def cleanup_text(text):
